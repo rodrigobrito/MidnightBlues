@@ -56,7 +56,6 @@ define([
 
             /**
              *  Initializer do módulo
-             *
              */
             this.addInitializer(function () {
                 console.log('Module:Application -> initialized');

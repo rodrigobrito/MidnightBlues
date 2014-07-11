@@ -4,7 +4,9 @@ define([
 ], function(app, Marionette){
 
     return  Marionette.Region.extend({
-        onShow: function(view){
+
+        onShow: function(view) {
+
             this.listenTo(view, "dialog:close", this.closeDialog);
 
             var self = this;
@@ -13,6 +15,7 @@ define([
                 keyboard: true,
                 show: true
             });
+
         },
 
         closeDialog: function(){

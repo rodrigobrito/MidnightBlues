@@ -58,7 +58,6 @@ define([
         this.$el.fadeIn('fast');
     });
 
-
     /**
      * Menu principal
      */
