@@ -2,18 +2,16 @@
 
 define([],
 
-    function () {
+    function() {
 
-    'use strict';
+        'use strict';
 
-    return {
+        return {
 
-        registeredModules: [
-            'dashboard',
-            'Application',
-
-        ],
+            registeredModules: [
+                'dashboard',
+            ],
 
 
-    };
-});
+        };
+    });

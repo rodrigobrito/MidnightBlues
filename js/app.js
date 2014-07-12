@@ -4,13 +4,12 @@ define([
     'backbone',
 	'marionette',
     'config/appConfig',
-    'modules/Application/regions/mainRegion',
-    'modules/Application/regions/notification',
-    'modules/Application/regions/dialog',
-	'modules/Application/collections/routesCollection',
-	'modules/Application/views/MenuView',
-	'modules/Application/views/Footer'
-], function (Backbone, Marionette, config, MainRegion, NotifyRegion, DialogRegion, RoutesCollection, MenuView, Footer) {
+    'system/regions/mainRegion',
+    'system/regions/notification',
+    'system/regions/dialog',
+	'system/collections/routesCollection',
+	'system/views/MenuView',
+], function (Backbone, Marionette, config, MainRegion, NotifyRegion, DialogRegion, RoutesCollection, MenuView) {
 
 	'use strict';
 
@@ -88,25 +87,39 @@ define([
                 }
 
                 if(modulesLoaded === modulesToLoad) {
-                    Backbone.history.start();
                     app.vent.trigger('modules:loaded');
                 }
             });
+
         }, this);
 
     });
 
 
     /**
-     * Aguardamos os módulos serem carregados e iniciamos o menu
-     * com as rotas obtidas em app.routesCollection
-     *
+     * Aguardamos os módulos serem carregados e iniciamos o módulo especial System
+     * e o menu com as rotas obtidas em app.routesCollection
      */
     app.vent.on("modules:loaded", function(options){
-        console.log('App::todos os módulos carregados');
+
+        require(['system/System'], function (SystemModule) {
+
+            SystemModule.start();
+
+            console.log('App::todos os módulos carregados');
+
+            // adicionando rotas registradas no menu
+            if (SystemModule.hasOwnProperty('menuEntries') && SystemModule.menuEntries.length) {
+                app.routesCollection.add(SystemModule.menuEntries);
+            }
+
+            Backbone.history.start();
+
+        });
 
         var menu = new MenuView({collection: app.routesCollection});
         app.menu.show(menu);
+
     });
 
 
