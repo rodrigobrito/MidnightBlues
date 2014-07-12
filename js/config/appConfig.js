@@ -10,6 +10,7 @@ define([],
 
             registeredModules: [
                 'dashboard',
+                'example'
             ],
 
 

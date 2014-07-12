@@ -17,9 +17,6 @@ define([
          */
         var moduleRoutes = {
             '': 'index',
-            'application': 'index',
-            'application/home': 'index',
-            'application/about': 'showAbout',
         },
 
         /*
@@ -50,8 +47,8 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'Home', route: 'application/home'},
-                {title: 'About', route: 'application/about'},
+                // {title: 'Home', route: 'application/home'},
+                // {title: 'About', route: 'application/about'},
             ];
 
             /**

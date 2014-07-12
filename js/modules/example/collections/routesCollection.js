@@ -2,7 +2,7 @@
 
 define([
 	'backbone',
-	'modules/Application/models/menuRoute'
+	'modules/example/models/menuRoute'
 ], function (Backbone, MenuRoute) {
 	'use strict';
 

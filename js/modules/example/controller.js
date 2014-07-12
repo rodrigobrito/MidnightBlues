@@ -2,7 +2,7 @@
 
 define([
     'app',
-    'modules/Application/views/HomeView'
+    'modules/example/views/HomeView'
 ], function(app, HomeView) {
 
     'use strict';
@@ -22,9 +22,9 @@ define([
         /**
          * Exemplo de uma view carregada sob demanda com require
          */
-        showAbout: function() {
-            require(['modules/Application/views/aboutView'], function(AboutView) {
-                app.mainRegion.show(new AboutView());
+        showInstagram: function() {
+            require(['modules/example/views/instagram'], function(InstagramView) {
+                app.mainRegion.show(new InstagramView());
             });
         },
 

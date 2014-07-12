@@ -1,14 +1,14 @@
 /**
  *
- * Módulo (pacote) Application
+ * Módulo (pacote) example
  *
  */
 
 define([
     'app',
     'marionette',
-    'modules/Application/controller',
-    //'modules/Application/router',
+    'modules/example/controller',
+    //'modules/example/router',
 ], function(app, Marionette, Controller ) {
 
         /**
@@ -17,9 +17,8 @@ define([
          */
         var moduleRoutes = {
             '': 'index',
-            'application': 'index',
-            'application/home': 'index',
-            'application/about': 'showAbout',
+            'example': 'index',
+            'example/instagram': 'showInstagram',
         },
 
         /*
@@ -34,11 +33,11 @@ define([
         }),
 
         /*
-        * Definição do módulo Application, adicionando initializer
+        * Definição do módulo example, adicionando initializer
         * e associando nosso Router para módulo
         *
         */
-        Module = app.module("Application", function(Application) {
+        Module = app.module("example", function(example) {
 
             /**
              * evitando que este módulo seja carregado automaticamente
@@ -50,15 +49,15 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'Home', route: 'application/home'},
-                {title: 'About', route: 'application/about'},
+                {title: 'Home', route: 'example'},
+                {title: 'Instagram', route: 'example/instagram'},
             ];
 
             /**
              *  Initializer do módulo
              */
             this.addInitializer(function () {
-                console.log('Module:Application -> initialized');
+                console.log('Module:example -> initialized');
                 this.router = Router;
             });
 
