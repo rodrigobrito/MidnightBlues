@@ -17,7 +17,15 @@ define([
         },
 
         onRender: function() {
-            console.log('callback onRender view Home');
+            /**
+             * Exemplo de Notificação
+             */
+            app.notify({
+                component: 'toastr',
+                title: 'app.notify()',
+                text: 'Método onRender da view system/views/HomeView',
+                type: 'success',
+            });
         },
 
         onBeforeClose: function () {

@@ -7,7 +7,9 @@ require.config({
 		jquery: 'lib/jquery/dist/jquery.min',
 		localStorage: 'lib/backbone.localStorage/backbone.localStorage',
 		tpl: 'lib/requirejs-tpl/tpl',
-		bootstrap: 'lib/bootstrap/dist/js/bootstrap.min'
+		bootstrap: 'lib/bootstrap/dist/js/bootstrap.min',
+		toastr: 'lib/toastr/toastr.min',
+		gritter: 'lib/jquery.gritter/js/jquery.gritter.min'
 	},
 
 	shim: {
@@ -27,10 +29,19 @@ require.config({
 
 		bootstrap: {
 			deps: ['jquery']
-		}
+		},
 
+		toastr: {
+			deps: ['jquery']
+		},
+
+		gritter: {
+			deps: ['jquery']
+		}
 	},
+
 	waitSeconds: 60
+
 });
 
 require([

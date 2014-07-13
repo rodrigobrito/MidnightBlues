@@ -14,8 +14,14 @@ define([
 
         initialize: function(options) {
             this.$('.photo').off();
-            this.listenTo(window.app.vent, 'instagram:fotosLoaded', this.refreshControl);
+            this.listenTo(app.vent, 'instagram:fotosLoaded', function(ViewCid) {
+                if (ViewCid === this.cid) {
+                  this.refreshControl();
+                }
+            });
         },
+
+
 
         progress: function(percent, $element) {
 
@@ -34,6 +40,8 @@ define([
                 width: progressBarWidth
             });
         },
+
+
 
         refreshControl: function() {
 
@@ -79,9 +87,11 @@ define([
 
         lazyload: function() {
 
-            var photos = this.$('.photo'),
-                totalPhotos = photos.length,
-                loadedCount = 0;
+            var self = this,
+                loadedCount = 0,
+                photos = this.$('.photo'),
+                totalPhotos = photos.length;
+
 
             photos.off().each(function() {
 
@@ -91,9 +101,10 @@ define([
                 photo.off().one('load', function() {
                     photo.fadeIn(function() {
                         loadedCount++;
-                        console.log(loadedCount);
+                        console.log('Instagram::' + self.cid + '::Foto::' + loadedCount + ' carregada.');
+                        console.log();
                         if (loadedCount == totalPhotos) {
-                            window.app.vent.trigger('instagram:fotosLoaded');
+                            window.app.vent.trigger('instagram:fotosLoaded', self.cid);
                         }
                     });
 
@@ -145,9 +156,11 @@ define([
         },
 
         onDestroy: function() {
+            console.log('instagram view ' + this.cid + ' destruída');
             clearInterval(this.refreshInterval);
             this.off();
-            console.log('instagram view has been destroied');
+            this.stopListening();
+
         }
 
     });

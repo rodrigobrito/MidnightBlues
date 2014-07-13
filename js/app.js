@@ -5,12 +5,13 @@ define([
     'marionette',
     'config/appConfig',
     'system/regions/mainRegion',
-    'system/regions/notification',
     'system/regions/dialog',
     'system/collections/routesCollection',
     'system/views/MenuView',
+    'toastr',
+    'gritter',
     'bootstrap'
-], function(Backbone, Marionette, config, MainRegion, NotifyRegion, DialogRegion, RoutesCollection, MenuView) {
+], function(Backbone, Marionette, config, MainRegion, DialogRegion, RoutesCollection, MenuView, toastr, gritter) {
 
     'use strict';
 
@@ -94,6 +95,7 @@ define([
 
         }, this);
 
+
     });
 
 
@@ -144,20 +146,65 @@ define([
     // });
 
     /**
-     *
-     * app.commands.execute("app:notify", {
-     *           type: 'warning'    // info|danger|success|warning
-     *           title: 'Success!', // Optional
-     *           description: 'We are going to remove Team state!'
-     *       });
+     * [notify description]
+     * @param  {[type]} userOptions [description]
+     * @return {[type]}             [description]
      */
-    app.commands.setHandler("app:notify", function(jsonData) {
-        require(['modules/Application/views/NotificationView'], function(NotifyView) {
-            app.notification.show(new NotifyView({
-                model: new Backbone.Model(jsonData)
-            }));
-        });
-    });
+    app.notify = function (userOptions) {
+
+        var method,
+            defaults = {
+                component: 'Toastr',
+            },
+            options = defaults;
+
+        if (userOptions) {
+            options = $.extend(defaults, userOptions);
+        }
+
+        method = (function() {
+             return 'show' +
+                    options.component.charAt(0).toUpperCase() +
+                    options.component.substr(1);
+        }());
+
+        app[method](options);
+
+    };
+
+    app.showToastr = function (userOptions) {
+
+        var defaults = config.notify.toastr.defaults,
+            options = defaults;
+
+        if (userOptions) {
+            options = $.extend(defaults, userOptions);
+        }
+
+        if(toastr.hasOwnProperty(options.type)) {
+            toastr[options.type](options.text);
+        } else {
+            toastr.info(options.text);
+        }
+
+
+    };
+
+    app.showGritter = function (userOptions) {
+
+        var defaults = config.notify.gritter.defaults,
+            options = defaults;
+
+        if (userOptions) {
+            options = $.extend(defaults, userOptions);
+
+            if(userOptions.hasOwnProperty('type')) {
+                options.class_name = 'gritter-' + userOptions.type;
+            }
+        }
+
+        $.gritter.add(options);
+    };
 
     /**
      * dialog

@@ -18,11 +18,11 @@ define([
          * (app.routesCollection)
          */
         onBeforeAddChild: function(view) {
-            console.log('before add child');
+            //console.log('before add child');
         },
 
         onAddChild: function(view) {
-            console.log('after add child');
+           // console.log('after add child');
         }
 
     });

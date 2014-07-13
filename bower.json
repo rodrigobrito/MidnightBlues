@@ -20,6 +20,8 @@
     "bootstrap": "~3.2.0",
     "requirejs-tpl": "*",
     "requirejs": "~2.1.14",
-    "font-awesome": "~4.1.0"
+    "font-awesome": "~4.1.0",
+    "toastr": "~2.0.3",
+    "jquery.gritter": "*"
   }
 }
