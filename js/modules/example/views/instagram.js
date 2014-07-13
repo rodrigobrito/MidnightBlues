@@ -12,12 +12,16 @@ define([
 
         template: htmlTemplate,
 
-        initialize: function () {
+        initialize: function(options) {
             this.$('.photo').off();
             this.listenTo(window.app.vent, 'instagram:fotosLoaded', this.refreshControl);
         },
 
         progress: function(percent, $element) {
+
+            if(this.options.hasOwnProperty('disableProgressBar') && this.options.disableProgressBar === true ) {
+                return false;
+            }
 
             var progressBarWidth = percent * $element.width() / 100,
                 $bar = $element.find('div');
@@ -33,8 +37,12 @@ define([
 
         refreshControl: function() {
 
+            if(this.options.hasOwnProperty('disableAutoRefresh') && this.options.disableAutoRefresh === true ) {
+                return false;
+            }
+
             var self = this,
-                refreshTime = 10,
+                refreshTime = this.options.refreshTime || 10,
                 elapsed = 0,
                 total = refreshTime * 1000,
                 $element = this.$('#progressBar');
@@ -81,7 +89,7 @@ define([
                     url = photo.data('src');
 
                 photo.off().one('load', function() {
-                    photo.fadeIn(function(){
+                    photo.fadeIn(function() {
                         loadedCount++;
                         console.log(loadedCount);
                         if (loadedCount == totalPhotos) {
@@ -100,42 +108,47 @@ define([
         getPhotos: function() {
 
             var self = this,
-                photo_block = this.$('#images-box');
+                photo_block = this.$('#images-box'),
+                displayItens = this.options.displayItens || 18,
+                cols = this.options.cols || 2,
+                tpl = '<div class="col-md-<%= cols %>"><a target="_blank" class="thumbnail insta" href="<%= link %>"><img class="photo" data-src="<%= imageUrl %>"/></a></div>';
 
-            $.ajax({
-                dataType: 'jsonp',
-                cache: true,
-                url: 'https://api.instagram.com/v1/media/popular?client_id=f719bfb233ce45008bbb28fcafcb1bd8',
-                success: function(response) {
-                    if (!response || !response.data)
-                        return false;
+                $.ajax({
+                    dataType: 'jsonp',
+                    cache: true,
+                    url: 'https://api.instagram.com/v1/media/popular?client_id=f719bfb233ce45008bbb28fcafcb1bd8&count=' + displayItens,
+                    success: function(response) {
 
-                    photo_block.empty();
+                        if (!response || !response.data)
+                            return false;
 
-                    for (var i = 0; i < 18; i++) {
+                        photo_block.empty();
 
-                        photo_block.append('<div class="col-md-2"><a target="_blank" class="thumbnail insta" href="' +
-                            response.data[i].link +
-                            '" title=""><img class="photo" data-src="' + response.data[i].images.thumbnail.url +
-                            '" /></a></div>');
+                        for (var i = 0; i < displayItens; i++) {
+
+                            var templateData = {
+                                'link': response.data[i].link,
+                                'imageUrl': response.data[i].images.thumbnail.url,
+                                'cols': cols,
+                            };
+
+                            photo_block.append(_.template(tpl, templateData));
+                        }
+
+                        self.lazyload();
                     }
-
-                    self.lazyload();
-                }
-            });
-
+                });
         },
 
         onRender: function() {
-
             this.getPhotos();
-
-
         },
 
-          onDestroy: function(){
+        onDestroy: function() {
             clearInterval(this.refreshInterval);
-          }
+            this.off();
+            console.log('instagram view has been destroied');
+        }
 
     });
 

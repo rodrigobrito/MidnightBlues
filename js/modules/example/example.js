@@ -17,7 +17,7 @@ define([
          */
         var moduleRoutes = {
             '': 'index',
-            'example': 'index',
+            'example/docs': 'index',
             'example/instagram': 'showInstagram',
         },
 
@@ -49,7 +49,7 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'Home', route: 'example'},
+                {title: 'Docs', route: 'example/docs'},
                 {title: 'Instagram', route: 'example/instagram'},
             ];
 

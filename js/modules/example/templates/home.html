@@ -1,13 +1,71 @@
 <section class="panel">
     <header class="panel-heading">
-        start
+        Docs
     </header>
     <div class="panel-body">
-        <h1>
-        <span class="text-muted">
-        <span class="glyphicon glyphicon-check"></span>
-        start
-        </span>
-        </h1>
+
+
+
+        <h3>Dialog Simples</h3>
+        <p><a href="#" class="showDialog btn btn-default">Mostrar Diálogo</a></p>
+
+        <p>
+            O objeto global <code>app</code> pode ser utilizado para exibir um  diálogo
+            que recebe um objeto com os dados para exibição e dois callbacks.
+        </p>
+
+
+<pre><code>
+app.commands.execute("app:dialog:confirm", {<br>
+    icon: 'info-sign',<br>
+    title: 'Título do diálogo',<br>
+    message: 'Mensagem Importante para o usuário!',<br>
+    confirmYes: function() {console.log('yes');},<br>
+    confirmNo: function() {console.log('no');},<br>
+});
+</code></pre>
+
+
+
+        <h3>Dialog Confirm</h3>
+        <p><a href="#" class="showConfirm btn btn-default">Mostrar Diálogo</a></p>
+
+        <p>
+            O objeto global <code>app</code> pode ser utilizado para exibir um  diálogo
+            que recebe um objeto com os dados para exibição e dois callbacks.
+        </p>
+
+
+<pre><code>
+app.commands.execute("app:dialog:confirm", {<br>
+    icon: 'info-sign',<br>
+    title: 'Título do diálogo',<br>
+    message: 'Mensagem Importante para o usuário!',<br>
+    confirmYes: function() {console.log('yes');},<br>
+    confirmNo: function() {console.log('no');},<br>
+});
+</code></pre>
+
+
+        <h3>Modal </h3>
+        <p><a href="#" class="showModal btn btn-default">Abrir View</a></p>
+
+        <p>
+            O objeto global <code>app</code> pode ser utilizado para exibir um  diálogo
+            que recebe um objeto com os dados para exibição e dois callbacks.
+        </p>
+
+
+<pre><code>
+app.commands.execute("app:dialog:confirm", {<br>
+    icon: 'info-sign',<br>
+    title: 'Título do diálogo',<br>
+    message: 'Mensagem Importante para o usuário!',<br>
+    confirmYes: function() {console.log('yes');},<br>
+    confirmNo: function() {console.log('no');},<br>
+});
+</code></pre>
+
+
     </div>
 </section>

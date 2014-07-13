@@ -2,21 +2,22 @@
 
 define([
     'backbone',
-	'marionette',
+    'marionette',
     'config/appConfig',
     'system/regions/mainRegion',
     'system/regions/notification',
     'system/regions/dialog',
-	'system/collections/routesCollection',
-	'system/views/MenuView',
-], function (Backbone, Marionette, config, MainRegion, NotifyRegion, DialogRegion, RoutesCollection, MenuView) {
+    'system/collections/routesCollection',
+    'system/views/MenuView',
+    'bootstrap'
+], function(Backbone, Marionette, config, MainRegion, NotifyRegion, DialogRegion, RoutesCollection, MenuView) {
 
-	'use strict';
+    'use strict';
 
     /**
      * Definição do objeto app Global
      */
-	var app = new Marionette.Application();
+    var app = new Marionette.Application();
 
     /**
      * Associando as configurações da applicação que foram definidas
@@ -28,22 +29,22 @@ define([
      * Definindo as Regions da applicação
      *
      */
-	app.addRegions({
-		menu: '#main-nav',
-		mainRegion: {
+    app.addRegions({
+        menu: '#main-nav',
+        mainRegion: {
             selector: '#main',
             regionType: MainRegion
         },
-		//footer: '#footer',
+        //footer: '#footer',
         // notification: {
         //     selector: "#notification",
         //     regionType: NotifyRegion
         // },
-        // dialog: {
-        //     selector: "#dialog",
-        //     regionType: DialogRegion
-        // }
-	});
+        dialog: {
+            selector: "#dialog",
+            regionType: DialogRegion
+        }
+    });
 
     /**
      *  Adicionando uma transição mais suave
@@ -67,16 +68,16 @@ define([
      * Aqui são contados os módulos e após todos
      * serem carregados, iniciamos Backbone.history
      */
-    app.addInitializer(function () {
+    app.addInitializer(function() {
 
         var modulesLoaded = 0,
             modulesToLoad = this.config.registeredModules.length;
 
-        _.each(this.config.registeredModules, function (moduleName) {
+        _.each(this.config.registeredModules, function(moduleName) {
 
             var modulePath = 'modules/' + moduleName + '/' + moduleName;
 
-            require([modulePath], function (module) {
+            require([modulePath], function(module) {
 
                 module.start();
                 modulesLoaded++;
@@ -86,7 +87,7 @@ define([
                     app.routesCollection.add(module.menuEntries);
                 }
 
-                if(modulesLoaded === modulesToLoad) {
+                if (modulesLoaded === modulesToLoad) {
                     app.vent.trigger('modules:loaded');
                 }
             });
@@ -100,9 +101,9 @@ define([
      * Aguardamos os módulos serem carregados e iniciamos o módulo especial System
      * e o menu com as rotas obtidas em app.routesCollection
      */
-    app.vent.on("modules:loaded", function(options){
+    app.vent.on("modules:loaded", function(options) {
 
-        require(['system/System'], function (SystemModule) {
+        require(['system/System'], function(SystemModule) {
 
             SystemModule.start();
 
@@ -117,7 +118,9 @@ define([
 
         });
 
-        var menu = new MenuView({collection: app.routesCollection});
+        var menu = new MenuView({
+            collection: app.routesCollection
+        });
         app.menu.show(menu);
 
     });
@@ -141,9 +144,9 @@ define([
     // });
 
     /**
-     * Sample JSON Data
+     *
      * app.commands.execute("app:notify", {
-     *           type: 'warning'    // Optional. Can be info(default)|danger|success|warning
+     *           type: 'warning'    // info|danger|success|warning
      *           title: 'Success!', // Optional
      *           description: 'We are going to remove Team state!'
      *       });
@@ -157,17 +160,16 @@ define([
     });
 
     /**
-     * @example
+     * dialog
      * app.commands.execute("app:dialog:simple", {
-     *           icon: 'info-sign'    // Optional. default is (glyphicon-)bell
-     *           title: 'Dialog title!', // Optional
+     *           icon: 'info-sign' ,
+     *           title: 'Dialog title!',
      *           message: 'The important message for user!'
      *       });
      */
     app.commands.setHandler("app:dialog:simple", function(data) {
-        require(['modules/Application/views/DialogView', 'models/Dialog', 'tpl!modules/Application/templates/simpleModal.html'],
+        require(['system/views/DialogView', 'system/models/Dialog', 'tpl!system/templates/simpleModal.html'],
             function(DialogView, DialogModel, ModalTpl) {
-
                 app.dialog.show(new DialogView({
                     template: ModalTpl,
                     model: new DialogModel(data)
@@ -176,19 +178,18 @@ define([
     });
 
     /**
-     * @example
+     * // confirm message
      * app.commands.execute("app:dialog:confirm", {
-     *           icon: 'info-sign'    // Optional. default is (glyphicon-)bell
-     *           title: 'Dialog title!', // Optional
-     *           message: 'The important message for user!'
-     *           'confirmYes': callbackForYes, // Function to execute of Yes clicked
-     *           'confirmNo': callbackForNo, // Function to execute of No clicked
+     *           icon: 'info-sign',
+     *           title: 'Dialog title!',
+     *           message: 'The important message for user!',
+     *           'confirmYes': callbackForYes,
+     *           'confirmNo': callbackForNo,
      *       });
      */
     app.commands.setHandler("app:dialog:confirm", function(data) {
-        require(['modules/Application/views/DialogView', 'modules/Application/models/Dialog', 'tpl!modules/Application/templates/confirmModal.html'],
+        require(['system/views/DialogView', 'system/models/Dialog', 'tpl!system/templates/confirmModal.html'],
             function(DialogView, DialogModel, ModalTpl) {
-
                 app.dialog.show(new DialogView({
                     template: ModalTpl,
                     model: new DialogModel(data),
@@ -201,5 +202,38 @@ define([
             });
     });
 
-	return window.app = app;
+    /**
+     * dialog
+     * app.commands.execute("app:show:modalView", {
+     *           view: construtorDaView,
+     *       });
+     */
+    app.commands.setHandler("app:show:modalView", function(InnerView, options) {
+        require(['system/views/ModalView', 'system/models/Dialog', 'tpl!system/templates/modal.html'],
+
+            function(ModalView, DialogModel, ModalTpl) {
+
+                var modalOptions = options || {},
+
+                    DefaultModel = Backbone.Model.extend({
+                        defaults: {
+                            showFooter: false,
+                            title: false,
+                            modalSize: 'lg', //  renderiza .modal-lg
+                        }
+                    }),
+
+                    modal = new ModalView({
+                        template: ModalTpl,
+                        innerView: InnerView,
+                        model: new DefaultModel(modalOptions)
+                    });
+
+                modal.render();
+
+            });
+    });
+
+    window.app = app;
+    return app;
 });

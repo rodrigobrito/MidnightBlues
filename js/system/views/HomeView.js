@@ -22,7 +22,29 @@ define([
 
         onBeforeClose: function () {
             console.log('before close');
-        }
+        },
+
+        openDocs: function (e) {
+
+            e.preventDefault();
+
+            var self = this;
+            //carregar view instagram no modal
+            require(['modules/example/views/HomeView'], function(HomeView) {
+                var view = new HomeView(),
+                    modalOptions = {
+                        showFooter: false,
+                        title: false,
+                        modalSize: 'lg', //  renderiza .modal-lg
+                    };
+                app.commands.execute("app:show:modalView", view, modalOptions);
+            });
+
+        },
+
+        events: {
+            'click .openDocs': 'openDocs'
+        },
 
     });
 

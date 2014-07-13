@@ -1,4 +1,3 @@
-
 require.config({
 
 	paths: {
@@ -8,7 +7,7 @@ require.config({
 		jquery: 'lib/jquery/dist/jquery.min',
 		localStorage: 'lib/backbone.localStorage/backbone.localStorage',
 		tpl: 'lib/requirejs-tpl/tpl',
-        bootstrap: 'lib/bootstrap/dist/js/bootstrap.min'
+		bootstrap: 'lib/bootstrap/dist/js/bootstrap.min'
 	},
 
 	shim: {
@@ -26,24 +25,21 @@ require.config({
 			deps: ['backbone']
 		},
 
-        bootstrap: {
-            deps: ['jquery']
-        }
+		bootstrap: {
+			deps: ['jquery']
+		}
 
 	},
-    waitSeconds: 60
+	waitSeconds: 60
 });
 
 require([
 	'app',
-
-    'jquery',
+	'jquery',
 	'bootstrap'
-], function (app) {
+], function(app) {
 
 	'use strict';
-
-
 	app.start();
 
 });

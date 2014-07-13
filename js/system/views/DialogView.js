@@ -13,6 +13,9 @@ define([
         dismiss: function(e) {
             e.preventDefault();
             this.trigger('dialog:close');
+        },
+        onRender: function () {
+            this.$('.modal').modal('show');
         }
 	});
 });

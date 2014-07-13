@@ -4,24 +4,42 @@ define([
     'marionette',
     'underscore',
     'tpl!modules/dashboard/templates/dashboardHome.tpl',
-], function (Marionette, _, DashboardHomeTemplate ) {
+], function(Marionette, _, DashboardHomeTemplate) {
 
     'use strict';
 
     return Marionette.ItemView.extend({
 
         template: DashboardHomeTemplate,
-
+        nestedViews: {},
         events: {
 
         },
 
-        onBeforeRender: function(){
-            console.log('before render dashboard home');
+        onRender: function() {
+
+            var self = this;
+            //carregar view instagram
+            require(['modules/example/views/instagram'], function(InstaView) {
+
+                self.nestedViews.instaView = new InstaView({
+                    el: '#insta-placeholder',
+                    displayItens: 9,
+                    refreshTime: 10,
+                    cols: 4,
+                    // disableProgressBar: true,
+                    // disableAutoRefresh: true,
+                });
+
+                self.nestedViews.instaView.render();
+
+            });
         },
 
-        onRender: function() {
-            console.log('on render dashboard home');
+        onDestroy: function() {
+            _.each(this.nestedViews, function(view) {
+                view.destroy();
+            });
         }
 
     });
