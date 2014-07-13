@@ -14,13 +14,6 @@ define([
 
 	'use strict';
 
-	return Marionette.AppRouter.extend({
-		appRoutes: {
-			'': 'index',
-            'app': 'index',
-            'app/home': 'index',
-			'app/about': 'showAbout',
-		}
-	});
+	return Marionette.AppRouter.extend({});
 
 });

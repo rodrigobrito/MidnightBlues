@@ -37,10 +37,6 @@ define([
             regionType: MainRegion
         },
         //footer: '#footer',
-        // notification: {
-        //     selector: "#notification",
-        //     regionType: NotifyRegion
-        // },
         dialog: {
             selector: "#dialog",
             regionType: DialogRegion
@@ -186,8 +182,6 @@ define([
         } else {
             toastr.info(options.text);
         }
-
-
     };
 
     app.showGritter = function (userOptions) {

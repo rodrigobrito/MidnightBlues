@@ -70,9 +70,9 @@ define([
             require(['modules/example/views/instagram'], function(InstaView) {
                 var view = new InstaView(instaOptions),
                     modalOptions = {
-                        showFooter: false,
-                        title: false,
-                        modalSize: 'lg', //  renderiza .modal-lg
+                        showFooter: true,
+                        title: 'Exemplo: View do instagram independente carregada com require',
+                        modalSize: 'full', //  renderiza .modal-lg
                     };
                 app.commands.execute("app:show:modalView", view, modalOptions);
             });

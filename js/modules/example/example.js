@@ -16,7 +16,6 @@ define([
          * Os métodos precisam existir no controller do módulo
          */
         var moduleRoutes = {
-            '': 'index',
             'example/docs': 'index',
             'example/instagram': 'showInstagram',
         },

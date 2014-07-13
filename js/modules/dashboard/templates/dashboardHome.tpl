@@ -1,5 +1,12 @@
 
         <div class="row">
+            <div class="col-md-12">
+                <h3>Demo</h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-6">
                 <div id="insta-placeholder"></div>
             </div>
