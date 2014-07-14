@@ -2,7 +2,7 @@
 
 define([
     'marionette',
-    'tpl!modules/example/templates/instagram.html',
+    'tpl!modules/instagram/templates/instagram.html',
     'underscore',
 ], function(Marionette, htmlTemplate, _) {
 
@@ -22,7 +22,6 @@ define([
         },
 
 
-
         progress: function(percent, $element) {
 
             if(this.options.hasOwnProperty('disableProgressBar') && this.options.disableProgressBar === true ) {
@@ -40,7 +39,6 @@ define([
                 width: progressBarWidth
             });
         },
-
 
 
         refreshControl: function() {
@@ -116,6 +114,7 @@ define([
 
         },
 
+
         getPhotos: function() {
 
             var self = this,
@@ -151,9 +150,11 @@ define([
                 });
         },
 
+
         onRender: function() {
             this.getPhotos();
         },
+
 
         onDestroy: function() {
             console.log('instagram view ' + this.cid + ' destruída');

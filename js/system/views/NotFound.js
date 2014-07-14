@@ -2,7 +2,7 @@
 
 define([
 	'marionette',
-	'tpl!system/templates/about.html',
+	'tpl!system/templates/notFound.html',
     'underscore',
 ], function (Marionette, htmlTemplate, _) {
 	'use strict';

@@ -84,6 +84,18 @@ body {
     color: #fff !important;
 }
 
+
+.well {
+    border: 1px solid rgb(221, 221, 221);
+    background-color: rgb(246, 246, 246);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
 /* Navigation */
 
 /* ------------------------------- */
@@ -93,7 +105,9 @@ body {
     border: none;
 }
 .navbar-top {
-    background-color: rgb(30, 143, 198);;
+    /*background-color: rgb(30, 143, 198);*/
+    background-color: #2980b9;
+
 }
 
 
@@ -389,13 +403,13 @@ font-weight: 300;
 
 /* componente de exemplo do instagram */
 
-#instagram .insta {
+.instagram-panel .insta {
     height: 150px;
     overflow: hidden;
     border: none;
 }
 
-#instagram .photo {display: none}
+.instagram-panel .photo {display: none}
 
 
 #progressBar {

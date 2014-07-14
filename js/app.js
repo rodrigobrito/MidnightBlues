@@ -70,55 +70,52 @@ define([
         var modulesLoaded = 0,
             modulesToLoad = this.config.registeredModules.length;
 
-        _.each(this.config.registeredModules, function(moduleName) {
-
-            var modulePath = 'modules/' + moduleName + '/' + moduleName;
-
-            require([modulePath], function(module) {
-
-                module.start();
-                modulesLoaded++;
-
-                // adicionando rotas registradas no menu
-                if (module.hasOwnProperty('menuEntries') && module.menuEntries.length) {
-                    app.routesCollection.add(module.menuEntries);
-                }
-
-                if (modulesLoaded === modulesToLoad) {
-                    app.vent.trigger('modules:loaded');
-                }
-            });
-
-        }, this);
-
-
-    });
-
-
-    /**
-     * Aguardamos os módulos serem carregados e iniciamos o módulo especial System
-     * e o menu com as rotas obtidas em app.routesCollection
-     */
-    app.vent.on("modules:loaded", function(options) {
+        var self = this;
 
         require(['system/System'], function(SystemModule) {
 
             SystemModule.start();
 
-            console.log('App::todos os módulos carregados');
-
-            // adicionando rotas registradas no menu
+            // Se o módulo System registrar rotas para o menu, adicionamos à coleção de rotas
             if (SystemModule.hasOwnProperty('menuEntries') && SystemModule.menuEntries.length) {
                 app.routesCollection.add(SystemModule.menuEntries);
             }
 
-            Backbone.history.start();
+            // carregar os módulos
+            _.each(self.config.registeredModules, function(moduleName) {
+
+                var modulePath = 'modules/' + moduleName + '/init';
+
+                require([modulePath], function(module) {
+                    module.start();
+                    modulesLoaded++;
+                    // adicionando rotas do módulo registradas para menu
+                    if (module.hasOwnProperty('menuEntries') && module.menuEntries.length) {
+                        app.routesCollection.add(module.menuEntries);
+                    }
+                    if (modulesLoaded === modulesToLoad) {
+                        app.vent.trigger('modules:loaded');
+                    }
+                });
+
+            }, self);
 
         });
+    });
+
+
+    /**
+     * Aguardamos os módulos serem carregados e iniciamos
+     * o menu com as rotas obtidas em app.routesCollection
+     */
+    app.vent.on("modules:loaded", function(options) {
+
+        Backbone.history.start();
 
         var menu = new MenuView({
             collection: app.routesCollection
         });
+
         app.menu.show(menu);
 
     });

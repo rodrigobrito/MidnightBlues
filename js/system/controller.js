@@ -2,29 +2,32 @@
 
 define([
     'app',
-    'system/views/HomeView'
-], function(app, HomeView) {
+    'system/views/Docs'
+], function(app, Docs) {
 
     'use strict';
 
     return {
 
-        /**
-         * Mostrando a view Home, declarada como
-         * dependência deste controller
-         */
-        index: function(pageName) {
-            app.mainRegion.show(new HomeView({
-                id: 'teste de paramentro'
-            }));
+
+        showDocs: function() {
+            app.mainRegion.show(new Docs());
         },
 
         /**
          * Exemplo de uma view carregada sob demanda com require
          */
-        showAbout: function() {
-            require(['system/views/aboutView'], function(AboutView) {
-                app.mainRegion.show(new AboutView());
+        notFound: function (route) {
+
+            console.log(route);
+            console.error('Rota não encontrada');
+
+            require(['system/views/NotFound'], function(NotFound) {
+                app.mainRegion.show(new NotFound({
+                    model: new Backbone.Model({
+                        'route': route
+                    })
+                }));
             });
         },
 

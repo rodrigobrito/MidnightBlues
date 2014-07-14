@@ -9,6 +9,7 @@ define([
     var ModuleRouter = Marionette.AppRouter.extend({
 
         appRoutes: {
+            '': 'index',
             'dashboard': 'index',
             'dashboard/create': 'create',
             'dashboard/edit/:pageName': 'edit',

@@ -1,7 +1,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h3>Demo</h3>
+                <h3>Dashboard <small>Módulo de exemplo</small></h3>
+                <a href="#system/docs">veja a documentação</a>
                 <hr>
             </div>
         </div>

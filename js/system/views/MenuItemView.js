@@ -26,10 +26,9 @@ define([
             }
         },
 
-        activateMenu: function (event) {
+        activateMenu: function (e) {
             var app = window.app;
             app.vent.trigger('menu:activate', this.model);
-
 		},
 
         onRender: function() {

@@ -16,7 +16,8 @@ define([
          * Os métodos precisam existir no controller do módulo
          */
         var moduleRoutes = {
-            '': 'index',
+            'system/docs': 'showDocs',
+            '*notFound': 'notFound',
         },
 
         /*

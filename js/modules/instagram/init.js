@@ -1,14 +1,14 @@
 /**
  *
- * Módulo (pacote) example
+ * Módulo (pacote) instagram
  *
  */
 
 define([
     'app',
     'marionette',
-    'modules/example/controller',
-    //'modules/example/router',
+    'modules/instagram/controller',
+    //'modules/instagram/router',
 ], function(app, Marionette, Controller ) {
 
         /**
@@ -16,8 +16,7 @@ define([
          * Os métodos precisam existir no controller do módulo
          */
         var moduleRoutes = {
-            'example/docs': 'index',
-            'example/instagram': 'showInstagram',
+            'instagram': 'index',
         },
 
         /*
@@ -32,11 +31,11 @@ define([
         }),
 
         /*
-        * Definição do módulo example, adicionando initializer
+        * Definição do módulo instagram, adicionando initializer
         * e associando nosso Router para módulo
         *
         */
-        Module = app.module("example", function(example) {
+        Module = app.module("instagram", function(instagram) {
 
             /**
              * evitando que este módulo seja carregado automaticamente
@@ -48,15 +47,14 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'Docs', route: 'example/docs'},
-                {title: 'Instagram', route: 'example/instagram'},
+                {title: 'Instagram', route: 'instagram'},
             ];
 
             /**
              *  Initializer do módulo
              */
             this.addInitializer(function () {
-                console.log('Module:example -> initialized');
+                console.log('Module:instagram -> initialized');
                 this.router = Router;
             });
 

@@ -11,8 +11,9 @@ define([],
              * Módulos registrados para a aplicação
              */
             registeredModules: [
+
                 'dashboard',
-                'example'
+                'instagram'
             ],
 
             /**

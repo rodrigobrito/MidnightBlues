@@ -2,7 +2,7 @@
 
 define([
     'marionette',
-    'tpl!modules/example/templates/home.html',
+    'tpl!system/templates/docs.html',
     'underscore',
     'jquery',
    // '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js',
@@ -67,11 +67,11 @@ define([
                 };
 
             //carregar view instagram no modal
-            require(['modules/example/views/instagram'], function(InstaView) {
+            require(['modules/instagram/views/instagram'], function(InstaView) {
                 var view = new InstaView(instaOptions),
                     modalOptions = {
                         showFooter: true,
-                        title: 'Exemplo: View do instagram independente carregada com require',
+                        title: 'View do módulo instagram carregada com require',
                         modalSize: 'full', //  renderiza .modal-lg
                     };
                 app.commands.execute("app:show:modalView", view, modalOptions);

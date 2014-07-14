@@ -20,7 +20,7 @@ define([
 
             var self = this;
             //carregar view instagram
-            require(['modules/example/views/instagram'], function(InstaView) {
+            require(['modules/instagram/views/instagram'], function(InstaView) {
 
                 self.nestedViews.instaView = new InstaView({
                     el: '#insta-placeholder',
