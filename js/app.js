@@ -146,6 +146,7 @@ define([
     app.notify = function (userOptions) {
 
         var method,
+            sound,
             defaults = {
                 component: 'Toastr',
             },
@@ -162,6 +163,15 @@ define([
         }());
 
         app[method](options);
+
+        if(config.notify.playSound || options.playSound) {
+
+            sound = $('#sound-' + options.type);
+
+            if(sound.length)
+                sound[0].play();
+        }
+
 
     };
 

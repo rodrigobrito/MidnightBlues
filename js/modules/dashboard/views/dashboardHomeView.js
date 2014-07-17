@@ -25,10 +25,10 @@ define([
                 self.nestedViews.instaView = new InstaView({
                     el: '#insta-placeholder',
                     displayItens: 9,
-                    refreshTime: 10,
-                    cols: 4,
-                    // disableProgressBar: true,
-                    // disableAutoRefresh: true,
+                    refreshTime: 20,
+                    columnGrid: 4,
+                    displayTimeBar: true,
+                    autoRefresh: true,
                 });
 
                 self.nestedViews.instaView.render();

@@ -61,9 +61,9 @@ define([
                 instaOptions = {
                     displayItens: 12,
                     refreshTime: 10,
-                    cols: 2,
-                    // disableProgressBar: true,
-                    // disableAutoRefresh: true,
+                    columnGrid: 2,
+                    displayTimeBar: false,
+                    autoRefresh: true,
                 };
 
             //carregar view instagram no modal

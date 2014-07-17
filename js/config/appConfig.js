@@ -11,7 +11,6 @@ define([],
              * Módulos registrados para a aplicação
              */
             registeredModules: [
-
                 'dashboard',
                 'instagram'
             ],
@@ -21,6 +20,8 @@ define([],
              */
             notify: {
 
+                playSound: false,
+
                 toastr: {
                     defaults: {
                         type: 'info'
@@ -29,7 +30,7 @@ define([],
 
                 gritter: {
                     defaults: {
-                        title: 'o atributo: title está vazio',
+                        title: 'Mensagem:',
                         text: 'o atributo: text está vazio',
                         // image: 'http://www.gravatar.com/avatar/56a44d257bd93d6cdb57f365a2fafc97.png',
                         sticky: false,

@@ -3,8 +3,9 @@
 define([
     'marionette',
     'tpl!modules/instagram/templates/instagram.html',
-    'underscore',
-], function(Marionette, htmlTemplate, _) {
+    'modules/instagram/config',
+    //'underscore',
+], function(Marionette, htmlTemplate, config) {
 
     'use strict';
 
@@ -12,19 +13,25 @@ define([
 
         template: htmlTemplate,
 
+
         initialize: function(options) {
+
+            this.options = $.extend(config, options);
+
             this.$('.photo').off();
+
             this.listenTo(app.vent, 'instagram:fotosLoaded', function(ViewCid) {
                 if (ViewCid === this.cid) {
-                  this.refreshControl();
+                  this.autoRefresh();
                 }
             });
+
         },
 
 
         progress: function(percent, $element) {
 
-            if(this.options.hasOwnProperty('disableProgressBar') && this.options.disableProgressBar === true ) {
+            if(!this.options.displayTimeBar) {
                 return false;
             }
 
@@ -41,14 +48,14 @@ define([
         },
 
 
-        refreshControl: function() {
+        autoRefresh: function() {
 
-            if(this.options.hasOwnProperty('disableAutoRefresh') && this.options.disableAutoRefresh === true ) {
+            if(!this.options.autoRefresh) {
                 return false;
             }
 
             var self = this,
-                refreshTime = this.options.refreshTime || 10,
+                refreshTime = this.options.refreshTime,
                 elapsed = 0,
                 total = refreshTime * 1000,
                 $element = this.$('#progressBar');
@@ -100,7 +107,6 @@ define([
                     photo.fadeIn(function() {
                         loadedCount++;
                         console.log('Instagram::' + self.cid + '::Foto::' + loadedCount + ' carregada.');
-                        console.log();
                         if (loadedCount == totalPhotos) {
                             window.app.vent.trigger('instagram:fotosLoaded', self.cid);
                         }
@@ -119,33 +125,58 @@ define([
 
             var self = this,
                 photo_block = this.$('#images-box'),
-                displayItens = this.options.displayItens || 18,
-                cols = this.options.cols || 2,
+                displayItens = this.options.displayItens,
+                urlInstagram = this.options.urlInstagram + displayItens,
+                cols = this.options.columnGrid,
                 tpl = '<div class="col-md-<%= cols %>"><a target="_blank" class="thumbnail insta" href="<%= link %>"><img class="photo" data-src="<%= imageUrl %>"/></a></div>';
 
                 $.ajax({
                     dataType: 'jsonp',
                     cache: true,
-                    url: 'https://api.instagram.com/v1/media/popular?client_id=f719bfb233ce45008bbb28fcafcb1bd8&count=' + displayItens,
+                    url: urlInstagram,
                     success: function(response) {
 
                         if (!response || !response.data)
                             return false;
 
-                        photo_block.empty();
+                        try {
 
-                        for (var i = 0; i < displayItens; i++) {
+                            photo_block.empty();
 
-                            var templateData = {
-                                'link': response.data[i].link,
-                                'imageUrl': response.data[i].images.thumbnail.url,
-                                'cols': cols,
-                            };
+                            for (var i = 0; i < displayItens; i++) {
 
-                            photo_block.append(_.template(tpl, templateData));
+                                var templateData = {
+                                    'link': response.data[i].link,
+                                    'imageUrl': response.data[i].images.thumbnail.url,
+                                    'cols': cols,
+                                };
+
+                                photo_block.append(_.template(tpl, templateData));
+                            }
+
+                            self.lazyload();
+
+
+                        } catch (error) {
+
+                            console.log(error);
+
+                            app.notify({
+                                component: 'toastr',
+                                title: 'Erro de comunicação com o Instagram:',
+                                text: 'O servidor retornou uma resposta inválida. Uma nova solicitação será feita em 5 segundos.',
+                                type: 'error',
+                                playSound: true
+                            });
+
+                           photo_block.html('<span/>').addClass('text-center').text('tentendo novamente...');
+
+                            setTimeout(function () {
+                                self.getPhotos();
+                            }, 5 * 1000);
                         }
 
-                        self.lazyload();
+
                     }
                 });
         },
