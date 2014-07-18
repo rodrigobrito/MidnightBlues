@@ -26,7 +26,7 @@ define([
         onRender: function() {
 
             // obtendo o z-index mais alto existente no momento
-            var highestZIndex = $('.modal-backdrop:last-child').css('z-index');
+            var highestZIndex = parseInt($('.modal-backdrop:last-child').css('z-index'));
 
             // mostrando o modal
             this.$('.modal').modal('show');
@@ -37,13 +37,14 @@ define([
 
             // necessário para o scroll do corpo do modal
             this.$(".modal-body").css({
-                "max-height": $(window).height() - 100
+                "max-height": $(window).height() * 0.8
             });
 
             // corrigindo ajustando o z-index para ficar no topo
             if (highestZIndex) {
-                this.$('.modal').css('z-index', highestZIndex + 2);
-                $('.modal-backdrop:last-child').css('z-index', highestZIndex + 1);
+                var newIndex = highestZIndex + 12;
+                this.$('.modal').css('z-index', newIndex + 2);
+                $('.modal-backdrop:last-child').css('z-index', newIndex + 1);
             }
         },
 
@@ -52,9 +53,16 @@ define([
         },
 
         onDestroy: function() {
-            console.log('destroy');
+
             this.options.innerView.destroy();
             this.off();
+
+            // aguardar o completo desaparecimento do modal e remover o html
+            setTimeout((function(){
+                this.remove();
+            }.bind(this)), 2000);
+
+
         }
 
     });

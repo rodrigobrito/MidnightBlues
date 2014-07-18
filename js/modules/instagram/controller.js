@@ -10,7 +10,10 @@ define([], function() {
          */
         index: function() {
             require(['modules/instagram/views/instagram'], function(InstagramView) {
-                app.mainRegion.show(new InstagramView());
+                app.mainRegion.show(new InstagramView({
+                    displayItens: 18,
+                    columnGrid: 2,
+                }));
             });
         },
 

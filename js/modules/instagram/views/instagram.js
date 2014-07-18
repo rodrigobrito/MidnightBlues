@@ -106,7 +106,7 @@ define([
                 photo.off().one('load', function() {
                     photo.fadeIn(function() {
                         loadedCount++;
-                        console.log('Instagram::' + self.cid + '::Foto::' + loadedCount + ' carregada.');
+                        //console.log('Instagram::' + self.cid + '::Foto::' + loadedCount + ' carregada.');
                         if (loadedCount == totalPhotos) {
                             window.app.vent.trigger('instagram:fotosLoaded', self.cid);
                         }
@@ -181,6 +181,47 @@ define([
                 });
         },
 
+        showModal: function (e) {
+
+            e.preventDefault();
+
+            var self = this,
+                instaOptions = {
+                    displayItens: 12,
+                    refreshTime: 10,
+                    columnGrid: 2,
+                    displayTimeBar: false,
+                    autoRefresh: true,
+                };
+
+            //carregar view instagram no modal
+            require(['modules/instagram/views/instagram'], function(InstaView) {
+                var view = new InstaView(instaOptions),
+                    modalOptions = {
+                        showFooter: true,
+                        title: 'View do módulo instagram carregada com require',
+                        modalSize: 'full', //  renderiza .modal-lg
+                    };
+                app.commands.execute("app:show:modalView", view, modalOptions);
+            });
+
+
+        },
+
+        showDialog: function (e) {
+            e.preventDefault();
+
+            app.commands.execute("app:dialog:simple", {
+                icon: 'info-sign',
+                title: 'Dialog title!',
+                message: 'The important message for user!'
+            });
+        },
+
+        events: {
+            'click .showModal': 'showModal',
+            'click .showDialog': 'showDialog'
+        },
 
         onRender: function() {
             this.getPhotos();
@@ -188,11 +229,11 @@ define([
 
 
         onDestroy: function() {
-            console.log('instagram view ' + this.cid + ' destruída');
-            clearInterval(this.refreshInterval);
             this.off();
+            this.$('.photo').off();
             this.stopListening();
-
+            clearInterval(this.refreshInterval);
+            console.log('instagram view ' + this.cid + ' destruída');
         }
 
     });
