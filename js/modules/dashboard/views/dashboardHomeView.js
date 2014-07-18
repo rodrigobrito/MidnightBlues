@@ -27,13 +27,25 @@ define([
                     displayItens: 9,
                     refreshTime: 20,
                     columnGrid: 4,
-                    displayTimeBar: true,
+                    displayTimeBar: false,
                     autoRefresh: true,
                 });
 
                 self.nestedViews.instaView.render();
 
             });
+
+            require(['modules/maps/views/maps'], function(GMapsView) {
+
+                self.nestedViews.gmapsView = new GMapsView({
+                    el: '#map-placeholder',
+                    customHeight: 330
+                });
+
+                self.nestedViews.gmapsView.render();
+
+            });
+
         },
 
         onDestroy: function() {

@@ -9,7 +9,8 @@ require.config({
 		tpl: 'lib/requirejs-tpl/tpl',
 		bootstrap: 'lib/bootstrap/dist/js/bootstrap.min',
 		toastr: 'lib/toastr/toastr.min',
-		gritter: 'lib/jquery.gritter/js/jquery.gritter.min'
+		gritter: 'lib/jquery.gritter/js/jquery.gritter.min',
+		async: 'lib/requirejs-plugins/src/async',
 	},
 
 	shim: {

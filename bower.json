@@ -23,6 +23,7 @@
     "font-awesome": "~4.1.0",
     "toastr": "~2.0.3",
     "jquery.gritter": "*",
-    "jasmine": "~2.0.0"
+    "jasmine": "~2.0.0",
+    "requirejs-plugins": "~1.0.2"
   }
 }

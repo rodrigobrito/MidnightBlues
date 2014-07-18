@@ -12,7 +12,8 @@ define([],
              */
             registeredModules: [
                 'dashboard',
-                'instagram'
+                'instagram',
+                'maps'
             ],
 
             /**
