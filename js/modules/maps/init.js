@@ -1,3 +1,6 @@
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
 /**
  *
  * Módulo (pacote) maps
@@ -7,22 +10,23 @@
 define([
     'app',
     'marionette',
-    'modules/maps/controller',
-    //'modules/maps/router',
-], function(app, Marionette, Controller ) {
+    'modules/maps/controller'
+], function (app, Marionette, Controller) {
 
-        /**
-         * Definindo as Rotas para este módulo.
-         * Os métodos precisam existir no controller do módulo
-         */
-        var moduleRoutes = {
-            'maps': 'index',
-        },
+    'use strict';
+
+    /**
+     * Definindo as Rotas para este módulo.
+     * Os métodos precisam existir no controller do módulo
+     */
+    var moduleRoutes = {
+        'maps': 'index'
+    },
 
         /*
-        * Definindo o Router deste Módulo.
-        * Isso pode ser feito em um arquivo separado, caso achar necessário.
-        */
+         * Definindo o Router deste Módulo.
+         * Isso pode ser feito em um arquivo separado, caso achar necessário.
+         */
         Router = new Marionette.AppRouter({
             //controller recebido via require
             controller: Controller,
@@ -35,7 +39,7 @@ define([
         * e associando nosso Router para módulo
         *
         */
-        Module = app.module("maps", function(maps) {
+        Module = app.module("maps", function (maps) {
 
             /**
              * evitando que este módulo seja carregado automaticamente
@@ -47,7 +51,7 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'maps', route: 'maps'},
+                {title: 'maps', route: 'maps'}
             ];
 
             /**
@@ -60,5 +64,5 @@ define([
 
         });
 
-        return Module;
+    return Module;
 });

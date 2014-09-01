@@ -1,9 +1,10 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
     'marionette',
-    'system/views/MenuItemView'
-], function(Marionette, MenuItemView) {
+    'system/views/menuItemView'
+], function (Marionette, MenuItemView) {
     'use strict';
 
     return Marionette.CollectionView.extend({
@@ -17,11 +18,11 @@ define([
          * disparados ao adicionar um model na collection de rotas da aplicação
          * (app.routesCollection)
          */
-        onBeforeAddChild: function(view) {
+        onBeforeAddChild: function (view) {
             //console.log('before add child');
         },
 
-        onAddChild: function(view) {
+        onAddChild: function (view) {
            // console.log('after add child');
         }
 

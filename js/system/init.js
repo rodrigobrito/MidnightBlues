@@ -1,3 +1,6 @@
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
 /**
  *
  * Módulo (pacote) Application
@@ -7,17 +10,18 @@
 define([
     'app',
     'marionette',
-    'system/controller',
-    //'modules/Application/router',
-], function(app, Marionette, Controller ) {
+    'system/controller'
 
-        /**
-         * Definindo as Rotas para este módulo.
-         * Os métodos precisam existir no controller do módulo
-         */
-        var moduleRoutes = {
+], function (app, Marionette, Controller) {
+
+    'use strict';
+    /**
+     * Definindo as Rotas para este módulo.
+     * Os métodos precisam existir no controller do módulo
+     */
+    var moduleRoutes = {
             'system/docs': 'showDocs',
-            '*notFound': 'notFound',
+            '*notFound': 'notFound'
         },
 
         /*
@@ -36,7 +40,7 @@ define([
         * e associando nosso Router para módulo
         *
         */
-        Module = app.module("System", function(System) {
+        Module = app.module("System", function (System) {
 
             /**
              * evitando que este módulo seja carregado automaticamente
@@ -62,5 +66,5 @@ define([
 
         });
 
-        return Module;
+    return Module;
 });

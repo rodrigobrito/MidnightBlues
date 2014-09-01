@@ -1,10 +1,11 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
     'marionette',
     'underscore',
-    'tpl!modules/dashboard/templates/dashboardHome.tpl',
-], function(Marionette, _, DashboardHomeTemplate) {
+    'tpl!modules/dashboard/templates/dashboardHome.tpl'
+], function (Marionette, _, DashboardHomeTemplate) {
 
     'use strict';
 
@@ -16,11 +17,11 @@ define([
 
         },
 
-        onRender: function() {
+        onRender: function () {
 
             var self = this;
             //carregar view instagram
-            require(['modules/instagram/views/instagram'], function(InstaView) {
+            require(['modules/instagram/views/instagram'], function (InstaView) {
 
                 self.nestedViews.instaView = new InstaView({
                     el: '#insta-placeholder',
@@ -28,14 +29,14 @@ define([
                     refreshTime: 20,
                     columnGrid: 4,
                     displayTimeBar: false,
-                    autoRefresh: true,
+                    autoRefresh: true
                 });
 
                 self.nestedViews.instaView.render();
 
             });
 
-            require(['modules/maps/views/maps'], function(GMapsView) {
+            require(['modules/maps/views/maps'], function (GMapsView) {
 
                 self.nestedViews.gmapsView = new GMapsView({
                     el: '#map-placeholder',
@@ -48,8 +49,8 @@ define([
 
         },
 
-        onDestroy: function() {
-            _.each(this.nestedViews, function(view) {
+        onDestroy: function () {
+            _.each(this.nestedViews, function (view) {
                 view.destroy();
             });
         }

@@ -1,9 +1,10 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
 	'marionette',
 	'tpl!system/templates/menuItem.html',
-    'system/models/menuRoute',
+    'system/models/menuRoute'
 
 ], function (Marionette, htmlTemplate, MenuRoute) {
 	'use strict';
@@ -21,7 +22,7 @@ define([
 			'click a': 'activateMenu'
 		},
         modelEvents: {
-            "change:active": function() {
+            "change:active": function () {
                 this.render();
             }
         },
@@ -31,8 +32,10 @@ define([
             app.vent.trigger('menu:activate', this.model);
 		},
 
-        onRender: function() {
-            if(this.model.get('active')) this.$el.addClass('active');
+        onRender: function () {
+            if (this.model.get('active')) {
+                this.$el.addClass('active');
+            }
         }
 
 	});

@@ -1,3 +1,6 @@
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
 require.config({
 
 	paths: {
@@ -10,7 +13,7 @@ require.config({
 		bootstrap: 'lib/bootstrap/dist/js/bootstrap.min',
 		toastr: 'lib/toastr/toastr.min',
 		gritter: 'lib/jquery.gritter/js/jquery.gritter.min',
-		async: 'lib/requirejs-plugins/src/async',
+		async: 'lib/requirejs-plugins/src/async'
 	},
 
 	shim: {
@@ -49,7 +52,7 @@ require([
 	'app',
 	'jquery',
 	'bootstrap'
-], function(app) {
+], function (app) {
 
 	'use strict';
 	app.start();

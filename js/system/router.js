@@ -1,3 +1,5 @@
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 /**
  *  Como temos pouco código aqui, este router foi

@@ -1,3 +1,6 @@
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
 /**
  *
  * Módulo (pacote) instagram
@@ -7,22 +10,24 @@
 define([
     'app',
     'marionette',
-    'modules/instagram/controller',
+    'modules/instagram/controller'
     //'modules/instagram/router',
-], function(app, Marionette, Controller ) {
+], function (app, Marionette, Controller) {
 
-        /**
-         * Definindo as Rotas para este módulo.
-         * Os métodos precisam existir no controller do módulo
-         */
-        var moduleRoutes = {
-            'instagram': 'index',
-        },
+    'use strict';
+
+    /**
+     * Definindo as Rotas para este módulo.
+     * Os métodos precisam existir no controller do módulo
+     */
+    var moduleRoutes = {
+        'instagram': 'index'
+    },
 
         /*
-        * Definindo o Router deste Módulo.
-        * Isso pode ser feito em um arquivo separado, caso achar necessário.
-        */
+         * Definindo o Router deste Módulo.
+         * Isso pode ser feito em um arquivo separado, caso achar necessário.
+         */
         Router = new Marionette.AppRouter({
             //controller recebido via require
             controller: Controller,
@@ -31,11 +36,11 @@ define([
         }),
 
         /*
-        * Definição do módulo instagram, adicionando initializer
-        * e associando nosso Router para módulo
-        *
-        */
-        Module = app.module("instagram", function(instagram) {
+         * Definição do módulo instagram, adicionando initializer
+         * e associando nosso Router para módulo
+         *
+         */
+        Module = app.module("instagram", function (instagram) {
 
             /**
              * evitando que este módulo seja carregado automaticamente
@@ -47,7 +52,7 @@ define([
              *  no menu principal da applicação
              */
             this.menuEntries = [
-                {title: 'Instagram', route: 'instagram'},
+                {title: 'Instagram', route: 'instagram'}
             ];
 
             /**
@@ -60,5 +65,5 @@ define([
 
         });
 
-        return Module;
+    return Module;
 });

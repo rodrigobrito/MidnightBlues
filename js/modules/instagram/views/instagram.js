@@ -1,11 +1,13 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
 
 define([
     'marionette',
     'tpl!modules/instagram/templates/instagram.html',
-    'modules/instagram/config',
+    'modules/instagram/config'
     //'underscore',
-], function(Marionette, htmlTemplate, config) {
+], function (Marionette, htmlTemplate, config) {
 
     'use strict';
 
@@ -14,24 +16,24 @@ define([
         template: htmlTemplate,
 
 
-        initialize: function(options) {
+        initialize: function (options) {
 
             this.options = $.extend(config, options);
 
             this.$('.photo').off();
 
-            this.listenTo(app.vent, 'instagram:fotosLoaded', function(ViewCid) {
+            this.listenTo(app.vent, 'instagram:fotosLoaded', function (ViewCid) {
                 if (ViewCid === this.cid) {
-                  this.autoRefresh();
+                    this.autoRefresh();
                 }
             });
 
         },
 
 
-        progress: function(percent, $element) {
+        progress: function (percent, $element) {
 
-            if(!this.options.displayTimeBar) {
+            if (!this.options.displayTimeBar) {
                 return false;
             }
 
@@ -48,9 +50,9 @@ define([
         },
 
 
-        autoRefresh: function() {
+        autoRefresh: function () {
 
-            if(!this.options.autoRefresh) {
+            if (!this.options.autoRefresh) {
                 return false;
             }
 
@@ -60,7 +62,7 @@ define([
                 total = refreshTime * 1000,
                 $element = this.$('#progressBar');
 
-            this.refreshInterval = setInterval(function() {
+            this.refreshInterval = setInterval(function () {
 
                 elapsed += 1000;
 
@@ -72,11 +74,11 @@ define([
 
                     clearInterval(self.refreshInterval);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $element.find('div').fadeOut('fast');
                     }, 1000);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         elapsed = 0;
                         self.progress(elapsed, $element);
 
@@ -90,7 +92,7 @@ define([
         },
 
 
-        lazyload: function() {
+        lazyload: function () {
 
             var self = this,
                 loadedCount = 0,
@@ -98,16 +100,16 @@ define([
                 totalPhotos = photos.length;
 
 
-            photos.off().each(function() {
+            photos.off().each(function () {
 
                 var photo = $(this),
                     url = photo.data('src');
 
-                photo.off().one('load', function() {
-                    photo.fadeIn(function() {
-                        loadedCount++;
-                        //console.log('Instagram::' + self.cid + '::Foto::' + loadedCount + ' carregada.');
-                        if (loadedCount == totalPhotos) {
+                photo.off().one('load', function () {
+                    photo.fadeIn(function () {
+                        loadedCount += 1;
+
+                        if (loadedCount === totalPhotos) {
                             window.app.vent.trigger('instagram:fotosLoaded', self.cid);
                         }
                     });
@@ -121,64 +123,67 @@ define([
         },
 
 
-        getPhotos: function() {
+        getPhotos: function () {
 
             var self = this,
                 photo_block = this.$('#images-box'),
                 displayItens = this.options.displayItens,
                 urlInstagram = this.options.urlInstagram + displayItens,
                 cols = this.options.columnGrid,
-                tpl = '<div class="col-md-<%= cols %>"><a target="_blank" class="thumbnail insta" href="<%= link %>"><img class="photo" data-src="<%= imageUrl %>"/></a></div>';
+                tpl = '<div class="col-md-<%= cols %>"><a target="_blank" class="thumbnail insta" href="<%= link %>"><img class="photo" data-src="<%= imageUrl %>"/></a></div>',
+                // for iterator
+                i;
 
-                $.ajax({
-                    dataType: 'jsonp',
-                    cache: true,
-                    url: urlInstagram,
-                    success: function(response) {
+            $.ajax({
+                dataType: 'jsonp',
+                cache: true,
+                url: urlInstagram,
+                success: function (response) {
 
-                        if (!response || !response.data)
-                            return false;
+                    if (!response || !response.data) {
+                        return false;
+                    }
 
-                        try {
+                    try {
 
-                            photo_block.empty();
+                        photo_block.empty();
 
-                            for (var i = 0; i < displayItens; i++) {
+                        for (i = 0; i < displayItens; i += 1) {
 
-                                var templateData = {
-                                    'link': response.data[i].link,
-                                    'imageUrl': response.data[i].images.thumbnail.url,
-                                    'cols': cols,
-                                };
+                            var templateData = {
+                                'link': response.data[i].link,
+                                'imageUrl': response.data[i].images.thumbnail.url,
+                                'cols': cols
+                            };
 
-                                photo_block.append(_.template(tpl, templateData));
-                            }
-
-                            self.lazyload();
-
-
-                        } catch (error) {
-
-                            console.log(error);
-
-                            app.notify({
-                                component: 'toastr',
-                                title: 'Erro de comunicação com o Instagram:',
-                                text: 'O servidor retornou uma resposta inválida. Uma nova solicitação será feita em 5 segundos.',
-                                type: 'error',
-                                playSound: true
-                            });
-
-                           photo_block.html('<span/>').addClass('text-center').text('tentendo novamente...');
-
-                            setTimeout(function () {
-                                self.getPhotos();
-                            }, 5 * 1000);
+                            photo_block.append(_.template(tpl, templateData));
                         }
 
+                        self.lazyload();
 
+
+                    } catch (error) {
+
+                        console.log(error);
+
+                        app.notify({
+                            component: 'toastr',
+                            title: 'Erro de comunicação com o Instagram:',
+                            text: 'O servidor retornou uma resposta inválida. Uma nova solicitação será feita em 5 segundos.',
+                            type: 'error',
+                            playSound: false
+                        });
+
+                        photo_block.html('<span/>').addClass('text-center').text('tentendo novamente...');
+
+                        setTimeout(function () {
+                            self.getPhotos();
+                        }, 5 * 1000);
                     }
-                });
+
+
+                }
+            });
         },
 
         showModal: function (e) {
@@ -191,16 +196,16 @@ define([
                     refreshTime: 10,
                     columnGrid: 2,
                     displayTimeBar: false,
-                    autoRefresh: true,
+                    autoRefresh: true
                 };
 
             //carregar view instagram no modal
-            require(['modules/instagram/views/instagram'], function(InstaView) {
+            require(['modules/instagram/views/instagram'], function (InstaView) {
                 var view = new InstaView(instaOptions),
                     modalOptions = {
                         showFooter: true,
                         title: 'View do módulo instagram carregada com require',
-                        modalSize: 'full', //  renderiza .modal-lg
+                        modalSize: 'full' //  renderiza .modal-lg
                     };
                 app.commands.execute("app:show:modalView", view, modalOptions);
             });
@@ -223,12 +228,12 @@ define([
             'click .showDialog': 'showDialog'
         },
 
-        onRender: function() {
+        onRender: function () {
             this.getPhotos();
         },
 
 
-        onDestroy: function() {
+        onDestroy: function () {
             this.off();
             this.$('.photo').off();
             this.stopListening();

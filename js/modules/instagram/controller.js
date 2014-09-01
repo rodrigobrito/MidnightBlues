@@ -1,6 +1,7 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
-define([], function() {
+define([], function () {
 
     'use strict';
 
@@ -8,14 +9,14 @@ define([], function() {
         /**
          * Exemplo de uma view carregada sob demanda com require
          */
-        index: function() {
-            require(['modules/instagram/views/instagram'], function(InstagramView) {
+        index: function () {
+            require(['modules/instagram/views/instagram'], function (InstagramView) {
                 app.mainRegion.show(new InstagramView({
                     displayItens: 18,
-                    columnGrid: 2,
+                    columnGrid: 2
                 }));
             });
-        },
+        }
 
     };
 });

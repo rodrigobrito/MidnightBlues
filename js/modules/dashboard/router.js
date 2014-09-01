@@ -12,7 +12,7 @@ define([
             '': 'index',
             'dashboard': 'index',
             'dashboard/create': 'create',
-            'dashboard/edit/:pageName': 'edit',
+            'dashboard/edit/:pageName': 'edit'
         }
 
     });

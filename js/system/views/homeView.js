@@ -1,22 +1,23 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
     'marionette',
     'tpl!system/templates/home.html',
-    'underscore',
-], function(Marionette, htmlTemplate, _) {
+    'underscore'
+], function (Marionette, htmlTemplate, _) {
     'use strict';
 
     return Marionette.ItemView.extend({
 
         template: htmlTemplate,
 
-        initialize: function(options) {
+        initialize: function (options) {
             console.log('inicializando view Home');
             console.log(options);
         },
 
-        onRender: function() {
+        onRender: function () {
             /**
              * Exemplo de Notificação
              */
@@ -24,7 +25,7 @@ define([
                 component: 'toastr',
                 title: 'app.notify()',
                 text: 'Método onRender da view system/views/HomeView',
-                type: 'success',
+                type: 'success'
             });
         },
 
@@ -38,12 +39,12 @@ define([
 
             var self = this;
             //carregar view instagram no modal
-            require(['modules/example/views/HomeView'], function(HomeView) {
+            require(['modules/example/views/HomeView'], function (HomeView) {
                 var view = new HomeView(),
                     modalOptions = {
                         showFooter: false,
                         title: false,
-                        modalSize: 'lg', //  renderiza .modal-lg
+                        modalSize: 'lg' //  renderiza .modal-lg
                     };
                 app.commands.execute("app:show:modalView", view, modalOptions);
             });
@@ -52,7 +53,7 @@ define([
 
         events: {
             'click .openDocs': 'openDocs'
-        },
+        }
 
     });
 

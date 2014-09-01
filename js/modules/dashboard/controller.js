@@ -1,4 +1,5 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
 	'app',
@@ -23,7 +24,7 @@ define([
 
         edit: function (id) {
             console.log('método edit -> ' + id);
-        },
+        }
 
 	};
 });

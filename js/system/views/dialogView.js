@@ -1,4 +1,5 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
 	'marionette'
@@ -10,7 +11,7 @@ define([
             'click .dismiss': 'dismiss'
         },
 
-        dismiss: function(e) {
+        dismiss: function (e) {
             e.preventDefault();
             this.trigger('dialog:close');
         },
@@ -21,9 +22,10 @@ define([
             this.$('.modal').modal('show');
 
             // fazer com que a mensagem sempre apareça no topo
-            var best;
-            var maxz;
-            $('.modal').each(function(){
+            var best,
+                maxz,
+                newIndex;
+            $('.modal').each(function () {
                 var z = parseInt($(this).css('z-index'), 10);
                 if (!best || maxz < z) {
                     best = this;
@@ -31,7 +33,8 @@ define([
                 }
             });
 
-            var newIndex = maxz + 12;
+            newIndex = maxz + 12;
+
             this.$('.modal').css('z-index', newIndex + 2);
             $('.modal-backdrop:last-child').css('z-index', newIndex + 1);
 

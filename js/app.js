@@ -1,17 +1,18 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
     'backbone',
     'marionette',
-    'config/appConfig',
+    'appConfig',
     'system/regions/mainRegion',
     'system/regions/dialog',
     'system/collections/routesCollection',
-    'system/views/MenuView',
+    'system/views/menuView',
     'toastr',
     'gritter',
     'bootstrap'
-], function(Backbone, Marionette, config, MainRegion, DialogRegion, RoutesCollection, MenuView, toastr, gritter) {
+], function (Backbone, Marionette, config, MainRegion, DialogRegion, RoutesCollection, MenuView, toastr, gritter) {
 
     'use strict';
 
@@ -47,11 +48,11 @@ define([
      *  Adicionando uma transição mais suave
      *  para views carregadas na região principal.
      */
-    app.mainRegion.on("before:show", function(view) {
+    app.mainRegion.on("before:show", function (view) {
         this.$el.hide();
     });
 
-    app.mainRegion.on("show", function(view) {
+    app.mainRegion.on("show", function (view) {
         this.$el.fadeIn('fast');
     });
 
@@ -65,14 +66,14 @@ define([
      * Aqui são contados os módulos e após todos
      * serem carregados, iniciamos Backbone.history
      */
-    app.addInitializer(function() {
+    app.addInitializer(function () {
 
         var modulesLoaded = 0,
             modulesToLoad = this.config.registeredModules.length;
 
-        var self = this;
+       // var self = this;
 
-        require(['system/System'], function(SystemModule) {
+        require(['system/init'], function (SystemModule) {
 
             SystemModule.start();
 
@@ -82,13 +83,13 @@ define([
             }
 
             // carregar os módulos
-            _.each(self.config.registeredModules, function(moduleName) {
+            _.each(this.config.registeredModules, function (moduleName) {
 
                 var modulePath = 'modules/' + moduleName + '/init';
 
-                require([modulePath], function(module) {
+                require([modulePath], function (module) {
                     module.start();
-                    modulesLoaded++;
+                    modulesLoaded += 1;
                     // adicionando rotas do módulo registradas para menu
                     if (module.hasOwnProperty('menuEntries') && module.menuEntries.length) {
                         app.routesCollection.add(module.menuEntries);
@@ -98,9 +99,9 @@ define([
                     }
                 });
 
-            }, self);
+            }, this);
 
-        });
+        }.bind(this));
     });
 
 
@@ -108,7 +109,7 @@ define([
      * Aguardamos os módulos serem carregados e iniciamos
      * o menu com as rotas obtidas em app.routesCollection
      */
-    app.vent.on("modules:loaded", function(options) {
+    app.vent.on("modules:loaded", function (options) {
 
         Backbone.history.start();
 
@@ -148,7 +149,7 @@ define([
         var method,
             sound,
             defaults = {
-                component: 'Toastr',
+                component: 'Toastr'
             },
             options = defaults;
 
@@ -156,20 +157,22 @@ define([
             options = $.extend(defaults, userOptions);
         }
 
-        method = (function() {
-             return 'show' +
+        method = (function () {
+            return 'show' +
                     options.component.charAt(0).toUpperCase() +
                     options.component.substr(1);
         }());
 
         app[method](options);
 
-        if(config.notify.playSound || options.playSound) {
+        if (config.notify.playSound || options.playSound) {
 
             sound = $('#sound-' + options.type);
 
-            if(sound.length)
+            if (sound.length) {
                 sound[0].play();
+            }
+
         }
 
 
@@ -184,7 +187,7 @@ define([
             options = $.extend(defaults, userOptions);
         }
 
-        if(toastr.hasOwnProperty(options.type)) {
+        if (toastr.hasOwnProperty(options.type)) {
             toastr[options.type](options.text);
         } else {
             toastr.info(options.text);
@@ -199,7 +202,7 @@ define([
         if (userOptions) {
             options = $.extend(defaults, userOptions);
 
-            if(userOptions.hasOwnProperty('type')) {
+            if (userOptions.hasOwnProperty('type')) {
                 options.class_name = 'gritter-' + userOptions.type;
             }
         }
@@ -215,9 +218,9 @@ define([
      *           message: 'The important message for user!'
      *       });
      */
-    app.commands.setHandler("app:dialog:simple", function(data) {
+    app.commands.setHandler("app:dialog:simple", function (data) {
         require(['system/views/DialogView', 'system/models/Dialog', 'tpl!system/templates/simpleModal.html'],
-            function(DialogView, DialogModel, ModalTpl) {
+            function (DialogView, DialogModel, ModalTpl) {
                 app.dialog.show(new DialogView({
                     template: ModalTpl,
                     model: new DialogModel(data)
@@ -235,9 +238,9 @@ define([
      *           'confirmNo': callbackForNo,
      *       });
      */
-    app.commands.setHandler("app:dialog:confirm", function(data) {
+    app.commands.setHandler("app:dialog:confirm", function (data) {
         require(['system/views/DialogView', 'system/models/Dialog', 'tpl!system/templates/confirmModal.html'],
-            function(DialogView, DialogModel, ModalTpl) {
+            function (DialogView, DialogModel, ModalTpl) {
                 app.dialog.show(new DialogView({
                     template: ModalTpl,
                     model: new DialogModel(data),
@@ -256,10 +259,10 @@ define([
      *           view: construtorDaView,
      *       });
      */
-    app.commands.setHandler("app:show:modalView", function(InnerView, options) {
+    app.commands.setHandler("app:show:modalView", function (InnerView, options) {
         require(['system/views/ModalView', 'system/models/Dialog', 'tpl!system/templates/modal.html'],
 
-            function(ModalView, DialogModel, ModalTpl) {
+            function (ModalView, DialogModel, ModalTpl) {
 
                 var modalOptions = options || {},
 
@@ -267,7 +270,7 @@ define([
                         defaults: {
                             showFooter: false,
                             title: false,
-                            modalSize: 'lg', //  renderiza .modal-lg
+                            modalSize: 'lg' //  renderiza .modal-lg
                         }
                     }),
 

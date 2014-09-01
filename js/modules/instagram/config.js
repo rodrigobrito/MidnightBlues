@@ -1,4 +1,9 @@
-define(function() {
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
+
+define(function () {
+
+    'use strict';
 
     return {
         displayItens: 18,

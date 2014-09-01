@@ -1,16 +1,17 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require, Backbone*/
 
 define([
     'app',
-    'system/views/Docs'
-], function(app, Docs) {
+    'system/views/docs'
+], function (app, Docs) {
 
     'use strict';
 
     return {
 
 
-        showDocs: function() {
+        showDocs: function () {
             app.mainRegion.show(new Docs());
         },
 
@@ -22,14 +23,14 @@ define([
             console.log(route);
             console.error('Rota não encontrada');
 
-            require(['system/views/NotFound'], function(NotFound) {
+            require(['system/views/notFound'], function (NotFound) {
                 app.mainRegion.show(new NotFound({
                     model: new Backbone.Model({
                         'route': route
                     })
                 }));
             });
-        },
+        }
 
     };
 });

@@ -2,7 +2,7 @@
 
 define([],
 
-    function() {
+    function () {
 
         'use strict';
 
@@ -37,10 +37,10 @@ define([],
                         sticky: false,
                         time: 8000,
                         class_name: 'gritter-info',
-                        before_open: function() {},
-                        after_open: function() {},
-                        before_close: function() {},
-                        after_close: function() {}
+                        before_open: function () {},
+                        after_open: function () {},
+                        before_close: function () {},
+                        after_close: function () {}
                     }
                 }
             }

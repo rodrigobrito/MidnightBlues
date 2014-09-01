@@ -1,13 +1,13 @@
-/*global define */
+/*jslint browser: true, devel: true, nomen: true*/
+/*global $, jQuery, define, app, _, require*/
 
 define([
     'marionette',
     'tpl!system/templates/docs.html',
     'underscore',
-    'jquery',
-   // '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js',
+    'jquery'
 
-], function(Marionette, htmlTemplate, _, $) {
+], function (Marionette, htmlTemplate, _, $) {
 
     'use strict';
 
@@ -17,14 +17,14 @@ define([
 
         template: htmlTemplate,
 
-        initialize: function() {
+        initialize: function () {
         },
 
-        onRender: function() {
+        onRender: function () {
 
-          this.$('pre code').each(function(i, block) {
-        //    hljs.highlightBlock(block);
-          });
+            this.$('pre code').each(function (i, block) {
+            //    hljs.highlightBlock(block);
+            });
 
         },
 
@@ -48,8 +48,8 @@ define([
                 icon: 'info-sign',
                 title: 'Título do diálogo',
                 message: 'Mensagem Importante para o usuário!',
-                confirmYes: function() {console.log('yes');},
-                confirmNo: function() {console.log('no');},
+                confirmYes: function () {console.log('yes'); },
+                confirmNo: function () {console.log('no'); }
             });
         },
 
@@ -63,16 +63,16 @@ define([
                     refreshTime: 10,
                     columnGrid: 2,
                     displayTimeBar: false,
-                    autoRefresh: true,
+                    autoRefresh: true
                 };
 
             //carregar view instagram no modal
-            require(['modules/instagram/views/instagram'], function(InstaView) {
+            require(['modules/instagram/views/instagram'], function (InstaView) {
                 var view = new InstaView(instaOptions),
                     modalOptions = {
                         showFooter: true,
                         title: 'View do módulo instagram carregada com require',
-                        modalSize: 'full', //  renderiza .modal-lg
+                        modalSize: 'full' //  renderiza .modal-lg
                     };
                 app.commands.execute("app:show:modalView", view, modalOptions);
             });
@@ -83,7 +83,7 @@ define([
         events: {
             'click .showDialog': 'showDialog',
             'click .showConfirm': 'showConfirm',
-            'click .showModal': 'showModal',
+            'click .showModal': 'showModal'
         }
 
     });
