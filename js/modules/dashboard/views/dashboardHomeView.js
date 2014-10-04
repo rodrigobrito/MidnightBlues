@@ -4,7 +4,7 @@
 define([
     'marionette',
     'underscore',
-    'tpl!modules/dashboard/templates/dashboardHome.tpl'
+    'tpl!modules/dashboard/templates/dashboardHome.html'
 ], function (Marionette, _, DashboardHomeTemplate) {
 
     'use strict';
