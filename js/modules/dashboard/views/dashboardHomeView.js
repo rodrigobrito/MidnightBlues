@@ -6,19 +6,7 @@ define([
     'modules/maps/views/maps'
 ], function (Marionette, _, DashboardHomeTemplate, InstaView, GMapsView) {
 
-    'use strict';
-
-    var instaView = new InstaView({                  
-        displayItens: 9,
-        refreshTime: 20,
-        columnGrid: 4,
-        displayTimeBar: false,
-        autoRefresh: true
-    });
-
-    var gmapsView = new GMapsView({                    
-        customHeight: 330
-    });
+    'use strict';   
 
     return Marionette.LayoutView.extend({
 
@@ -28,6 +16,18 @@ define([
              gmapsPlaceHolder : "#map-placeholder"
         },
         onRender: function () {
+             var instaView = new InstaView({                  
+                displayItens: 9,
+                refreshTime: 20,
+                columnGrid: 4,
+                displayTimeBar: false,
+                autoRefresh: true
+            });
+
+            var gmapsView = new GMapsView({                    
+                customHeight: 330
+            });
+    
             this.instagramPlaceHolder.show(instaView);
             this.gmapsPlaceHolder.show(gmapsView);
         }
