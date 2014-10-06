@@ -1,59 +1,35 @@
-/*jslint browser: true, devel: true, nomen: true*/
-/*global $, jQuery, define, app, _, require*/
-
 define([
     'marionette',
     'underscore',
-    'tpl!modules/dashboard/templates/dashboardHome.tpl'
-], function (Marionette, _, DashboardHomeTemplate) {
+    'tpl!modules/dashboard/templates/dashboardHome.html',
+    'modules/instagram/views/instagram',
+    'modules/maps/views/maps'
+], function (Marionette, _, DashboardHomeTemplate, InstaView, GMapsView) {
 
-    'use strict';
+    'use strict';   
 
-    return Marionette.ItemView.extend({
+    return Marionette.LayoutView.extend({
 
-        template: DashboardHomeTemplate,
-        nestedViews: {},
-        events: {
-
+        template: DashboardHomeTemplate,            
+        regions: {
+             instagramPlaceHolder: "#insta-placeholder",
+             gmapsPlaceHolder : "#map-placeholder"
         },
-
         onRender: function () {
-
-            var self = this;
-            //carregar view instagram
-            require(['modules/instagram/views/instagram'], function (InstaView) {
-
-                self.nestedViews.instaView = new InstaView({
-                    el: '#insta-placeholder',
-                    displayItens: 9,
-                    refreshTime: 20,
-                    columnGrid: 4,
-                    displayTimeBar: false,
-                    autoRefresh: true
-                });
-
-                self.nestedViews.instaView.render();
-
+             var instaView = new InstaView({                  
+                displayItens: 9,
+                refreshTime: 20,
+                columnGrid: 4,
+                displayTimeBar: false,
+                autoRefresh: true
             });
 
-            require(['modules/maps/views/maps'], function (GMapsView) {
-
-                self.nestedViews.gmapsView = new GMapsView({
-                    el: '#map-placeholder',
-                    customHeight: 330
-                });
-
-                self.nestedViews.gmapsView.render();
-
+            var gmapsView = new GMapsView({                    
+                customHeight: 330
             });
-
-        },
-
-        onDestroy: function () {
-            _.each(this.nestedViews, function (view) {
-                view.destroy();
-            });
+    
+            this.instagramPlaceHolder.show(instaView);
+            this.gmapsPlaceHolder.show(gmapsView);
         }
-
     });
 });

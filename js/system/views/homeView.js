@@ -21,7 +21,7 @@ define([
             /**
              * Exemplo de Notificação
              */
-            app.notify({
+            app.utils.notify({
                 component: 'toastr',
                 title: 'app.notify()',
                 text: 'Método onRender da view system/views/HomeView',
