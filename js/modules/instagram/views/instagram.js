@@ -166,7 +166,7 @@ define([
 
                         console.log(error);
 
-                        app.notify({
+                        app.utils.notify({
                             component: 'toastr',
                             title: 'Erro de comunicação com o Instagram:',
                             text: 'O servidor retornou uma resposta inválida. Uma nova solicitação será feita em 5 segundos.',
